@@ -3,7 +3,7 @@
 namespace Tests\Endpoint;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
@@ -47,7 +47,7 @@ class LoginTest extends TestCase
             ]
         ];
 
-        $this->expectException(ModelNotFoundException::class);
+        $this->expectException(AuthenticationException::class);
 
         $this->postJson('/api/users/login', $data);
     }
@@ -62,8 +62,8 @@ class LoginTest extends TestCase
         ];
 
         $response = $this->postJson('/api/users/login', $data);
-        $response->assertNotFound();
-        $response->assertJson(['message' => 'User not found']);
+        $response->assertUnauthorized();
+        $response->assertJson(['message' => 'Unauthorized']);
     }
 
     /**

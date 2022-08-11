@@ -7,7 +7,9 @@ use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\RegisterResource;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\UnauthorizedException;
 
 class UserController extends Controller
 {
@@ -40,7 +42,7 @@ class UserController extends Controller
 
         $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
         if (!$jwt) {
-            throw new ModelNotFoundException('User not found');
+            throw new AuthenticationException('Unauthorized');
         }
 
         return (new UserResource(auth()->user()))
