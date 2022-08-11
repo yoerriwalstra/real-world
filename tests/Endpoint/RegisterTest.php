@@ -3,7 +3,6 @@
 namespace Tests\Endpoint;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -21,13 +20,13 @@ class RegisterTest extends TestCase
             ]
         ];
 
-        $response = $this->post('/api/users', $newUser);
+        $response = $this->postJson('/api/users', $newUser);
 
-        $response->assertStatus(JsonResponse::HTTP_CREATED);
+        $response->assertCreated();
         $response->assertJson(
             fn (AssertableJson $json) =>
             $json
-                ->has('user.token')
+                ->hasAll(['user.token', 'user.bio', 'user.image'])
                 ->missing('user.password')
         );
     }
@@ -48,7 +47,7 @@ class RegisterTest extends TestCase
 
         $response = $this->postJson('/api/users', $noEmailUser);
 
-        $response->assertStatus(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors('user.email');
     }
 }

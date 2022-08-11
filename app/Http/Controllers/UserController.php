@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
+use App\Http\Resources\RegisterResource;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
@@ -23,7 +26,24 @@ class UserController extends Controller
 
         $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
 
-        return (new UserResource($user))
+        return (new RegisterResource($user))
+            ->additional([
+                'user' => ['token' => $jwt]
+            ]);
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $data = $request->validated();
+        $email = data_get($data, 'user.email');
+        $password = data_get($data, 'user.password');
+
+        $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
+        if (!$jwt) {
+            throw new ModelNotFoundException('User not found');
+        }
+
+        return (new UserResource(auth()->user()))
             ->additional([
                 'user' => ['token' => $jwt]
             ]);
