@@ -14,18 +14,13 @@ class LoginTest extends TestCase
 
     public function testItReturnsTheLoggedInUserWithToken()
     {
-        User::factory()->unverified()->create([
+        $credentials = [
             'email' => 'test@email.com',
-        ]);
-
-        $data = [
-            'user' => [
-                'email' => 'test@email.com',
-                'password' => 'password',
-            ]
+            'password' => 'password',
         ];
+        User::factory()->unverified()->create($credentials);
 
-        $response = $this->postJson('/api/users/login', $data);
+        $response = $this->postJson('/api/users/login', ['user' => $credentials]);
 
         $response->assertOk();
         $response->assertJson(
@@ -36,7 +31,7 @@ class LoginTest extends TestCase
         );
     }
 
-    public function testItThrowsModelNotFoundException()
+    public function testItThrowsAuthenticationException()
     {
         $this->withoutExceptionHandling();
 
@@ -52,7 +47,7 @@ class LoginTest extends TestCase
         $this->postJson('/api/users/login', $data);
     }
 
-    public function testItReturnsUserNotFoundMessage()
+    public function testItReturnsUnauthorizedMessage()
     {
         $data = [
             'user' => [
@@ -62,15 +57,11 @@ class LoginTest extends TestCase
         ];
 
         $response = $this->postJson('/api/users/login', $data);
+
         $response->assertUnauthorized();
         $response->assertJson(['message' => 'Unauthorized']);
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testItReturnsValidationErrors()
     {
         $data = [
