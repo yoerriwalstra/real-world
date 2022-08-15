@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('users', [UserController::class, 'register']);
 Route::post('users/login', [UserController::class, 'login']);
+Route::middleware('auth:api')->group(function () {
+    Route::get('user', [UserController::class, 'me']);
+    Route::put('user', [UserController::class, 'update']);
+});

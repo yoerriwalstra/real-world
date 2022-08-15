@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\RegisterResource;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -45,9 +46,30 @@ class UserController extends Controller
             throw new AuthenticationException('Unauthorized');
         }
 
-        return (new UserResource(auth()->user()))
+        return $this->userWithToken(auth()->user(), $jwt);
+    }
+
+    public function me(Request $request)
+    {
+        $jwt = str_replace('Token ', '', $request->header('Authorization'));
+        return $this->userWithToken(auth()->user(), $jwt);
+    }
+
+    public function update(UpdateUserRequest $request)
+    {
+        $data = $request->validated();
+
+        $updated = $this->userService->update(auth()->id(), $data['user']);
+        $jwt = str_replace('Token ', '', $request->header('Authorization'));
+
+        return $this->userWithToken($updated, $jwt);
+    }
+
+    private function userWithToken(Authenticatable $user, string $token)
+    {
+        return (new UserResource($user))
             ->additional([
-                'user' => ['token' => $jwt]
+                'user' => ['token' => $token]
             ]);
     }
 }
