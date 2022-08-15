@@ -6,7 +6,12 @@ use App\Models\User;
 
 class UserService
 {
-    public function create(string $username, string $email, string $password)
+    public function firstWhere(string $attribute, string $value): ?User
+    {
+        return User::query()->where($attribute, $value)->first();
+    }
+
+    public function create(string $username, string $email, string $password): User
     {
         return User::create([
             'username' => $username,
@@ -15,7 +20,7 @@ class UserService
         ]);
     }
 
-    public function update(int $userId, array $data)
+    public function update(int $userId, array $data): User
     {
         $user = User::find($userId);
         $user->fill($data)->save();

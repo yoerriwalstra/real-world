@@ -4,14 +4,14 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class ProfileResource extends JsonResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
      * @var string|null
      */
-    public static $wrap = 'user';
+    public static $wrap = 'profile';
 
     /**
      * Transform the resource into an array.
@@ -22,10 +22,10 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'email' => $this->email,
             'username' => $this->username,
             'bio' => $this->bio,
             'image' => $this->image,
+            'following' => $this->followed->pluck('id')->contains(auth()->id()),
         ];
     }
 }
