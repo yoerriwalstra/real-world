@@ -4,6 +4,7 @@ namespace Tests\Endpoint;
 
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
@@ -31,7 +32,8 @@ class MeTest extends TestCase
 
     public function testItReturnsTheLoggedInUserWithToken()
     {
-        $user = User::factory()->unverified()->create([
+        /** @var Authenticatable $user */
+        $user = User::factory()->create([
             'email' => 'test@email.com',
         ]);
 

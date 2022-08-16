@@ -18,7 +18,7 @@ class LoginTest extends TestCase
             'email' => 'test@email.com',
             'password' => 'password',
         ];
-        User::factory()->unverified()->create($credentials);
+        User::factory()->create($credentials);
 
         $response = $this->postJson('/api/users/login', ['user' => $credentials]);
 
