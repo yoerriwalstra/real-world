@@ -29,6 +29,8 @@ class ProfileController extends Controller
         if (!$profile) {
             throw new ModelNotFoundException('Profile not found');
         }
+
+        // early exit if authenticated user is already following profile to prevent causing SQL duplicate key violation
         if ($this->profileService->isAuthUserFollowing($profile)) {
             return (new ProfileResource($profile));
         }
