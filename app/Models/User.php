@@ -48,7 +48,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public function password(): Attribute
+    protected function password(): Attribute
     {
         return Attribute::make(set: fn ($value) => Hash::make($value));
     }
@@ -81,5 +81,10 @@ class User extends Authenticatable implements JWTSubject
     public function followed()
     {
         return $this->belongsToMany(User::class, 'followers', 'followed_id', 'follower_id');
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
     }
 }
