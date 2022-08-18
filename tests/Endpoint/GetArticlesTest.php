@@ -92,8 +92,6 @@ class GetArticlesTest extends TestCase
 
         $response = $this->getJson('/api/articles?author=username');
 
-        $response->assertOk();
-
         $sortedArticlesResponse = $authorArticles->sortByDesc('created_at')
             ->pluck('title')
             ->map(fn (string $title) => ['title' => $title])
@@ -101,6 +99,34 @@ class GetArticlesTest extends TestCase
         $response->assertJson([
             'articles' => $sortedArticlesResponse,
             'articlesCount' => $authorArticles->count()
+        ]);
+    }
+
+    public function testItReturnsArticlesFavoritedByUsername()
+    {
+        $user = User::factory()->create(['username' => 'username']);
+        $users = User::factory(2)->create();
+        $users->concat($user);
+
+        // create articles
+        $users->each(fn (User $user) => Article::factory(5)->for($user, 'author')->create());
+        // favorite random articles
+        $users->each(function (User $user) {
+            $articleIds = Article::inRandomOrder()->limit(3)->get(['id'])->pluck('id')->toArray();
+            $user->favoriteArticles()->attach($articleIds);
+        });
+
+        $articlesResponse = $user->favoriteArticles()
+            ->latest()
+            ->get()
+            ->pluck('title')
+            ->map(fn (string $title) => ['title' => $title]);
+
+        $response = $this->getJson('/api/articles?favorited=username');
+
+        $response->assertJson([
+            'articles' => $articlesResponse->toArray(),
+            'articlesCount' => $articlesResponse->count()
         ]);
     }
 }

@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
-            $table->id();
-            $table->string('slug')->unique();
-            $table->string('title');
-            $table->string('description');
-            $table->string('body');
-            $table->foreignId('author_id');
-
-            $table->timestamps();
+        Schema::create('favorite_articles', function (Blueprint $table) {
+            $table->foreignId('user_id');
+            $table->foreignId('article_id');
+            $table->primary(['user_id', 'article_id']);
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('favorite_articles');
     }
 };

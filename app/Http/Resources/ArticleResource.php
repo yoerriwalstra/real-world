@@ -29,8 +29,8 @@ class ArticleResource extends JsonResource
             'tagList' => $this->tagList,
             'createdAt' => (string) $this->created_at,
             'updatedAt' => (string) $this->updated_at,
-            'favorited' => $this->favorited,
-            'favoritesCount' => $this->favoritesCount,
+            'favorited' => auth()->user()?->favoriteArticles()->where('article_id', $this->id)->exists(),
+            'favoritesCount' => $this->favoritedBy()->count(),
             'author' => new ProfileResource($this->author),
         ];
     }

@@ -26,13 +26,14 @@ class ArticleService
                 ->limit($limit)
                 ->get();
         }
-        // if (isset($conditions['favorited'])) {
-        //     return $this->userService->firstWhere('username', $conditions['favorited'])
-        //         ->favoriteArticles
-        //         ->skip($offset)
-        //         ->take($limit)
-        //         ->values(); // `values` resets the array keys
-        // }
+        if (isset($conditions['favorited'])) {
+            return $this->userService->firstWhere('username', $conditions['favorited'])
+                ->favoriteArticles()
+                ->latest()
+                ->offset($offset)
+                ->limit($limit)
+                ->get();
+        }
         // if (isset($conditions['tag'])) {
         //     //
         // }

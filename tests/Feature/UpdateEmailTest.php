@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 // class that can be used as a stand-in for an inline function
-class MyCallable
+class MyInvokable
 {
     public function __invoke()
     {
@@ -34,16 +34,16 @@ class UpdateEmailTest extends TestCase
             ->shouldReceive('id')
             ->andReturn($users->first()->id);
 
-        $mockFailCallable = $this->createMock(MyCallable::class);
+        $mockFailInvokable = $this->createMock(MyInvokable::class);
 
         // expectation
-        $mockFailCallable
+        $mockFailInvokable
             ->expects($this->once())
             ->method('__invoke')
             ->with('The email address is already taken');
 
         // execution
         $rule = new UpdateEmail();
-        $rule('email', 'email2@example.com', $mockFailCallable);
+        $rule('email', 'email2@example.com', $mockFailInvokable);
     }
 }
