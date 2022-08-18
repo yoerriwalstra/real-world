@@ -26,7 +26,7 @@ class ArticleResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'body' => $this->body,
-            'tagList' => $this->tagList,
+            'tagList' => $this->tags->pluck('name')->toArray(),
             'createdAt' => (string) $this->created_at,
             'updatedAt' => (string) $this->updated_at,
             'favorited' => auth()->user()?->favoriteArticles()->where('article_id', $this->id)->exists(),

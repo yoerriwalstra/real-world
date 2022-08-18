@@ -3,6 +3,7 @@
 namespace Tests\Endpoint;
 
 use App\Models\Article;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -128,5 +129,42 @@ class GetArticlesTest extends TestCase
             'articles' => $articlesResponse->toArray(),
             'articlesCount' => $articlesResponse->count()
         ]);
+    }
+
+    public function testItReturnsArticlesByTag()
+    {
+        $articles = Article::factory(5)->for(User::factory()->create(), 'author')->create();
+        $tags = Tag::factory(2)->create();
+        $articles->each(function (Article $article) use ($tags) {
+            $article->tags()->attach($tags->random()->id);
+        });
+
+        $articlesResponse = $tags->first()->articles()
+            ->latest()
+            ->get()
+            ->pluck('title')
+            ->map(fn (string $title) => ['title' => $title]);
+
+        $response = $this->getJson("/api/articles?tag={$tags->first()->name}");
+
+        $response->assertJson([
+            'articles' => $articlesResponse->toArray(),
+            'articlesCount' => $articlesResponse->count()
+        ]);
+    }
+
+    public function testItReturnsNotFoundForUnknownUserOrTag()
+    {
+        $response = $this->getJson('api/articles?author=nonExistent');
+        $response->assertNotFound();
+        $response->assertJson(['message' => 'Author not found']);
+
+        $response = $this->getJson('api/articles?favorited=nonExistent');
+        $response->assertNotFound();
+        $response->assertJson(['message' => 'Favorited not found']);
+
+        $response = $this->getJson('api/articles?tag=nonExistent');
+        $response->assertNotFound();
+        $response->assertJson(['message' => 'Tag not found']);
     }
 }

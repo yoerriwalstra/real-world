@@ -3,11 +3,12 @@
 namespace App\Services;
 
 use App\Models\Article;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 class ArticleService
 {
-    public function __construct(private UserService $userService)
+    public function __construct(private UserService $userService, private TagService $tagService)
     {
     }
 
@@ -19,7 +20,11 @@ class ArticleService
     public function findWhere(array $conditions, int $limit, int $offset): Collection
     {
         if (isset($conditions['author'])) {
-            return $this->userService->firstWhere('username', $conditions['author'])
+            $author = $this->userService->firstWhere('username', $conditions['author']);
+            if (!$author) {
+                throw new ModelNotFoundException('Author not found');
+            }
+            return $author
                 ->articles()
                 ->latest()
                 ->offset($offset)
@@ -27,16 +32,29 @@ class ArticleService
                 ->get();
         }
         if (isset($conditions['favorited'])) {
-            return $this->userService->firstWhere('username', $conditions['favorited'])
+            $favorited = $this->userService->firstWhere('username', $conditions['favorited']);
+            if (!$favorited) {
+                throw new ModelNotFoundException('Favorited not found');
+            }
+            return $favorited
                 ->favoriteArticles()
                 ->latest()
                 ->offset($offset)
                 ->limit($limit)
                 ->get();
         }
-        // if (isset($conditions['tag'])) {
-        //     //
-        // }
+        if (isset($conditions['tag'])) {
+            $tag = $this->tagService->firstWhere('name', $conditions['tag']);
+            if (!$tag) {
+                throw new ModelNotFoundException('Tag not found');
+            }
+            return $tag
+                ->articles()
+                ->latest()
+                ->offset($offset)
+                ->limit($limit)
+                ->get();
+        }
 
         return Article::query()->where($conditions)->latest()->offset($offset)->limit($limit)->get();
     }
