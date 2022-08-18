@@ -13,13 +13,6 @@ class GetOneArticleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public Article $article;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function testItThrowsModelNotFoundException()
     {
         $this->withoutExceptionHandling();
