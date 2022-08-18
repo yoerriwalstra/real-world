@@ -22,7 +22,7 @@ Route::post('users/login', [UserController::class, 'login']);
 Route::get('profiles/{username}', [ProfileController::class, 'get'])
     ->whereAlphaNumeric('username');
 
-// Route::get('articles', [ArticleController::class, 'get']);
+Route::get('articles', [ArticleController::class, 'get']);
 Route::get('articles/{slug}', [ArticleController::class, 'getOne']);
 
 Route::middleware('auth:api')->group(function () {
