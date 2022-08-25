@@ -16,15 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('users', [UserController::class, 'register']);
-Route::post('users/login', [UserController::class, 'login']);
-
-Route::get('profiles/{username}', [ProfileController::class, 'get'])
-    ->whereAlphaNumeric('username');
-
-Route::get('articles', [ArticleController::class, 'get']);
-Route::get('articles/{slug}', [ArticleController::class, 'getOne']);
-
 Route::middleware('auth:api')->group(function () {
     Route::get('user', [UserController::class, 'me']);
     Route::put('user', [UserController::class, 'update']);
@@ -43,3 +34,12 @@ Route::middleware('auth:api')->group(function () {
     // Route::post('articles/{slug}/favorite', [ArticleController::class, 'favorite']);
     // Route::delete('articles/{slug}/favorite', [ArticleController::class, 'unfavorite']);
 });
+
+Route::post('users', [UserController::class, 'register']);
+Route::post('users/login', [UserController::class, 'login']);
+
+Route::get('profiles/{username}', [ProfileController::class, 'get'])
+    ->whereAlphaNumeric('username');
+
+Route::get('articles', [ArticleController::class, 'get']);
+Route::get('articles/{slug}', [ArticleController::class, 'getOne']);

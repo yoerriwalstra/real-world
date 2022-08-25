@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
@@ -24,6 +25,7 @@ class ArticleService
             if (!$author) {
                 throw new ModelNotFoundException('Author not found');
             }
+
             return $author
                 ->articles()
                 ->latest()
@@ -36,6 +38,7 @@ class ArticleService
             if (!$favorited) {
                 throw new ModelNotFoundException('Favorited not found');
             }
+
             return $favorited
                 ->favoriteArticles()
                 ->latest()
@@ -48,6 +51,7 @@ class ArticleService
             if (!$tag) {
                 throw new ModelNotFoundException('Tag not found');
             }
+
             return $tag
                 ->articles()
                 ->latest()
@@ -57,5 +61,17 @@ class ArticleService
         }
 
         return Article::query()->where($conditions)->latest()->offset($offset)->limit($limit)->get();
+    }
+
+    public function getFeed(int $limit, int $offset)
+    {
+        $followingAuthorIds = auth()->user()->follows()->get(['id'])->pluck('id')->toArray();
+
+        return Article::query()
+            ->whereIn('author_id', $followingAuthorIds)
+            ->latest()
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
     }
 }

@@ -41,4 +41,14 @@ class ArticleController extends Controller
 
         return new ArticleResource($article);
     }
+
+    public function feed(Request $request)
+    {
+        $limit = $request->query('limit', 20);
+        $offset = $request->query('offset', 0);
+
+        $feed = $this->articleService->getFeed($limit, $offset);
+
+        return new ArticleCollection($feed);
+    }
 }
