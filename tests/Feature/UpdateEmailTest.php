@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Models\User;
 use App\Rules\UpdateEmail;
@@ -26,7 +26,7 @@ class UpdateEmailTest extends TestCase
         // setup
         $users = User::factory()->createMany([
             ['email' => 'email1@example.com'],
-            ['email' => 'email2@example.com']
+            ['email' => 'email2@example.com'],
         ]);
 
         Auth::shouldReceive('user')

@@ -16,7 +16,7 @@ class ProfileController extends Controller
     public function get(string $username)
     {
         $profile = $this->userService->firstWhere('username', $username);
-        if (!$profile) {
+        if (! $profile) {
             throw new ModelNotFoundException('Profile not found');
         }
 
@@ -26,13 +26,13 @@ class ProfileController extends Controller
     public function follow(string $username)
     {
         $profile = $this->userService->firstWhere('username', $username);
-        if (!$profile) {
+        if (! $profile) {
             throw new ModelNotFoundException('Profile not found');
         }
 
         // early exit if authenticated user is already following profile to prevent causing SQL duplicate key violation
         if ($this->profileService->isAuthUserFollowing($profile)) {
-            return (new ProfileResource($profile));
+            return new ProfileResource($profile);
         }
 
         auth()->user()->follows()->attach($profile->id);
@@ -45,7 +45,7 @@ class ProfileController extends Controller
     public function unfollow(string $username)
     {
         $profile = $this->userService->firstWhere('username', $username);
-        if (!$profile) {
+        if (! $profile) {
             throw new ModelNotFoundException('Profile not found');
         }
 

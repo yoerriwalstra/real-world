@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\User;
@@ -21,8 +21,8 @@ class FavoritedArticleTest extends TestCase
         $response->assertJson(
             [
                 'article' => [
-                    'favorited' => null
-                ]
+                    'favorited' => null,
+                ],
             ],
             true
         );
@@ -39,8 +39,8 @@ class FavoritedArticleTest extends TestCase
 
         $response->assertJson([
             'article' => [
-                'favorited' => true
-            ]
+                'favorited' => true,
+            ],
         ]);
     }
 }

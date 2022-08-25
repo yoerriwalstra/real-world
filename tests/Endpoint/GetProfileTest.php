@@ -39,8 +39,7 @@ class GetProfileTest extends TestCase
 
         $response->assertOk();
         $response->assertJson(
-            fn (AssertableJson $json) =>
-            $json
+            fn (AssertableJson $json) => $json
                 ->hasAll(['profile.username', 'profile.bio', 'profile.image', 'profile.following'])
         );
     }

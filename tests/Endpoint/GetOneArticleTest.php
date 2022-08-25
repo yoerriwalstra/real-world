@@ -58,8 +58,8 @@ class GetOneArticleTest extends TestCase
                     'bio' => $user->bio,
                     'image' => $user->image,
                     'following' => false,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

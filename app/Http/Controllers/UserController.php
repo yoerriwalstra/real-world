@@ -41,7 +41,7 @@ class UserController extends Controller
         $password = data_get($data, 'user.password');
 
         $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
-        if (!$jwt) {
+        if (! $jwt) {
             throw new AuthenticationException('Unauthorized');
         }
 
@@ -51,6 +51,7 @@ class UserController extends Controller
     public function me(Request $request)
     {
         $jwt = str_replace('Token ', '', $request->header('Authorization'));
+
         return $this->userWithToken(auth()->user(), $jwt);
     }
 
@@ -68,7 +69,7 @@ class UserController extends Controller
     {
         return (new UserResource($user))
             ->additional([
-                'user' => ['token' => $token]
+                'user' => ['token' => $token],
             ]);
     }
 }

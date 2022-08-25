@@ -17,15 +17,14 @@ class RegisterTest extends TestCase
                 'username' => 'test',
                 'email' => 'test@email.com',
                 'password' => 'password',
-            ]
+            ],
         ];
 
         $response = $this->postJson('/api/users', $newUser);
 
         $response->assertCreated();
         $response->assertJson(
-            fn (AssertableJson $json) =>
-            $json
+            fn (AssertableJson $json) => $json
                 ->hasAll(['user.token', 'user.bio', 'user.image'])
                 ->missing('user.password')
         );
@@ -37,7 +36,7 @@ class RegisterTest extends TestCase
             'user' => [
                 'username' => 'test',
                 'password' => 'password',
-            ]
+            ],
         ];
 
         $response = $this->postJson('/api/users', $noEmailUser);

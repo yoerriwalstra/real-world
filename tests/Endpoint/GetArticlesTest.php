@@ -40,8 +40,8 @@ class GetArticlesTest extends TestCase
                         'bio',
                         'image',
                         'following',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'articlesCount',
         ]);
@@ -73,9 +73,9 @@ class GetArticlesTest extends TestCase
                 [
                     'title' => 'The first title',
                     // skipping rest of the ArticleResource properties for brevity
-                ]
+                ],
             ],
-            'articlesCount' => 1
+            'articlesCount' => 1,
         ]);
     }
 
@@ -99,7 +99,7 @@ class GetArticlesTest extends TestCase
             ->toArray();
         $response->assertJson([
             'articles' => $sortedArticlesResponse,
-            'articlesCount' => $authorArticles->count()
+            'articlesCount' => $authorArticles->count(),
         ]);
     }
 
@@ -127,7 +127,7 @@ class GetArticlesTest extends TestCase
 
         $response->assertJson([
             'articles' => $articlesResponse->toArray(),
-            'articlesCount' => $articlesResponse->count()
+            'articlesCount' => $articlesResponse->count(),
         ]);
     }
 
@@ -149,7 +149,7 @@ class GetArticlesTest extends TestCase
 
         $response->assertJson([
             'articles' => $articlesResponse->toArray(),
-            'articlesCount' => $articlesResponse->count()
+            'articlesCount' => $articlesResponse->count(),
         ]);
     }
 

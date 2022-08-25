@@ -41,8 +41,7 @@ class MeTest extends TestCase
 
         $response->assertOk();
         $response->assertJson(
-            fn (AssertableJson $json) =>
-            $json
+            fn (AssertableJson $json) => $json
                 ->hasAll(['user.token', 'user.bio', 'user.image'])
                 ->missing('user.password')
         );

@@ -24,8 +24,7 @@ class LoginTest extends TestCase
 
         $response->assertOk();
         $response->assertJson(
-            fn (AssertableJson $json) =>
-            $json
+            fn (AssertableJson $json) => $json
                 ->hasAll(['user.token', 'user.bio', 'user.image'])
                 ->missing('user.password')
         );
@@ -39,7 +38,7 @@ class LoginTest extends TestCase
             'user' => [
                 'email' => 'non-existent@user.com',
                 'password' => 'password',
-            ]
+            ],
         ];
 
         $this->expectException(AuthenticationException::class);
@@ -53,7 +52,7 @@ class LoginTest extends TestCase
             'user' => [
                 'email' => 'non-existent@user.com',
                 'password' => 'password',
-            ]
+            ],
         ];
 
         $response = $this->postJson('/api/users/login', $data);
@@ -67,7 +66,7 @@ class LoginTest extends TestCase
         $data = [
             'user' => [
                 'email' => 'test@email.com',
-            ]
+            ],
         ];
 
         $response = $this->postJson('/api/users', $data);

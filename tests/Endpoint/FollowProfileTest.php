@@ -67,7 +67,7 @@ class FollowProfileTest extends TestCase
                 'bio' => $user->bio,
                 'image' => $user->image,
                 'following' => true,
-            ]
+            ],
         ]);
     }
 

@@ -50,7 +50,7 @@ class UserServiceTest extends TestCase
             [
                 'id' => $user->id,
                 'username' => $data['username'],
-                'bio' => $data['bio']
+                'bio' => $data['bio'],
             ]
         );
     }

@@ -20,7 +20,7 @@ class UpdateUserTest extends TestCase
         $data = [
             'user' => [
                 'email' => 'new@email.com',
-            ]
+            ],
         ];
 
         $response = $this->actingAs($user)->putJson('/api/user', $data);
@@ -28,8 +28,7 @@ class UpdateUserTest extends TestCase
         $response->assertOk();
         $response->assertJson($data);
         $response->assertJson(
-            fn (AssertableJson $json) =>
-            $json
+            fn (AssertableJson $json) => $json
                 ->hasAll(['user.token', 'user.bio', 'user.image'])
                 ->missing('user.password')
         );

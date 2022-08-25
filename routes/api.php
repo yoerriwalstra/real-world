@@ -35,11 +35,11 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('profiles/{username}/follow', [ProfileController::class, 'unfollow'])
         ->whereAlphaNumeric('username');
 
-    // Route::get('articles/feed', [ArticleController::class, 'feed']);
+    Route::get('articles/feed', [ArticleController::class, 'feed']);
     // Route::post('articles', [ArticleController::class, 'create']);
     // Route::put('articles/{slug}', [ArticleController::class, 'update'])->middleware('can:update-article'); // TODO: add Gate
     // Route::delete('articles/{slug}', [ArticleController::class, 'delete'])->middleware('can:delete-article'); // TODO: add Gate
 
-    // Route::post('articles/{slug}', [ArticleController::class, 'favorite']);
-    // Route::delete('articles/{slug}', [ArticleController::class, 'unfavorite']);
+    // Route::post('articles/{slug}/favorite', [ArticleController::class, 'favorite']);
+    // Route::delete('articles/{slug}/favorite', [ArticleController::class, 'unfavorite']);
 });
