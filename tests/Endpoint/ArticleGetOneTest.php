@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class GetOneArticleTest extends TestCase
+class ArticleGetOneTest extends TestCase
 {
     use RefreshDatabase;
 

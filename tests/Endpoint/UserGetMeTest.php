@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
-class MeTest extends TestCase
+class UserGetMeTest extends TestCase
 {
     use RefreshDatabase;
 

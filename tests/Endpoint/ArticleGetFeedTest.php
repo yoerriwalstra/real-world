@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class GetArticleFeedTest extends TestCase
+class ArticleGetFeedTest extends TestCase
 {
     use RefreshDatabase;
 

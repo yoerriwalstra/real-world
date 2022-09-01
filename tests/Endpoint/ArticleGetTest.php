@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class GetArticlesTest extends TestCase
+class ArticleGetTest extends TestCase
 {
     use RefreshDatabase;
 

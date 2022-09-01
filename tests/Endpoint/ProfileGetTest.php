@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
-class GetProfileTest extends TestCase
+class ProfileGetTest extends TestCase
 {
     use RefreshDatabase;
 

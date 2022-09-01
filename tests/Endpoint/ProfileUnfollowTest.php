@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class FollowProfileTest extends TestCase
+class ProfileUnfollowTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -23,7 +23,7 @@ class FollowProfileTest extends TestCase
 
     public function testItReturnsUnauthenticated()
     {
-        $response = $this->postJson('/api/profiles/nonExistentUsername/follow');
+        $response = $this->deleteJson('/api/profiles/nonExistentUsername/follow');
 
         $response->assertUnauthorized();
         $response->assertJson(['message' => 'Unauthenticated.']);
@@ -35,30 +35,23 @@ class FollowProfileTest extends TestCase
 
         $this->expectException(ModelNotFoundException::class);
 
-        $this->actingAs($this->user)->postJson('/api/profiles/nonExistentUsername/follow');
+        $this->actingAs($this->user)->deleteJson('/api/profiles/nonExistentUsername/follow');
     }
 
     public function testItReturnsNotFound()
     {
-        $response = $this->actingAs($this->user)->postJson('/api/profiles/nonExistentUsername/follow');
+        $response = $this->actingAs($this->user)->deleteJson('/api/profiles/nonExistentUsername/follow');
 
         $response->assertNotFound();
         $response->assertJson(['message' => 'Profile not found']);
     }
 
-    public function testItReturnsForbiddenWhenUserTriesFollowingSelf()
-    {
-        $response = $this->actingAs($this->user)->postJson("/api/profiles/{$this->user->username}/follow");
-
-        $response->assertForbidden();
-    }
-
-    public function testItReturnsTheFollowedProfile()
+    public function testItReturnsTheUnfollowedProfile()
     {
         /** @var Authenticatable $user */
         $user = User::factory()->create(['username' => 'user2']);
 
-        $response = $this->actingAs($this->user)->postJson("/api/profiles/{$user->username}/follow");
+        $response = $this->actingAs($this->user)->deleteJson("/api/profiles/{$user->username}/follow");
 
         $response->assertOk();
         $response->assertJson([
@@ -66,22 +59,25 @@ class FollowProfileTest extends TestCase
                 'username' => $user->username,
                 'bio' => $user->bio,
                 'image' => $user->image,
-                'following' => true,
+                'following' => false,
             ],
         ]);
     }
 
-    public function testItCreatesTheRelationBetweenFollowerAndFollowed()
+    public function testItDeletesTheRelationBetweenFollowerAndFollowed()
     {
         /** @var Authenticatable $user */
         $user = User::factory()->create(['username' => 'user2']);
 
-        $this->assertDatabaseCount('followers', 0);
-
-        $this->actingAs($this->user)->postJson("/api/profiles/{$user->username}/follow");
+        // create follower relationship
+        $this->user->follows()->attach($user->id);
 
         $this->assertDatabaseCount('followers', 1);
-        $this->assertDatabaseHas(
+
+        $this->actingAs($this->user)->deleteJson("/api/profiles/{$user->username}/follow");
+
+        $this->assertDatabaseCount('followers', 0);
+        $this->assertDatabaseMissing(
             'followers',
             ['follower_id' => $this->user->id, 'followed_id' => $user->id]
         );
