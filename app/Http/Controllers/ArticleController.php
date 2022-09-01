@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateArticleRequest;
+use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
@@ -54,7 +54,7 @@ class ArticleController extends Controller
         return new ArticleCollection($feed);
     }
 
-    public function create(CreateArticleRequest $request)
+    public function create(ArticleCreateRequest $request)
     {
         $article = $this->articleService->create($request->validated()['article']);
 
@@ -62,4 +62,6 @@ class ArticleController extends Controller
             ->response()
             ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
+
+    public function update()
 }

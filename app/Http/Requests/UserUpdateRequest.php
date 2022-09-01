@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\UpdateEmail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

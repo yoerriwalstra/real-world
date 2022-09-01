@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserLoginRequest;
+use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Auth\AuthenticationException;
@@ -18,7 +18,7 @@ class UserController extends Controller
     {
     }
 
-    public function register(RegisterRequest $request)
+    public function register(UserRegisterRequest $request)
     {
         $data = $request->validated();
         $username = data_get($data, 'user.username');
@@ -34,14 +34,14 @@ class UserController extends Controller
             ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
-    public function login(LoginRequest $request)
+    public function login(UserLoginRequest $request)
     {
         $data = $request->validated();
         $email = data_get($data, 'user.email');
         $password = data_get($data, 'user.password');
 
         $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
-        if (! $jwt) {
+        if (!$jwt) {
             throw new AuthenticationException('Unauthorized');
         }
 
@@ -55,7 +55,7 @@ class UserController extends Controller
         return $this->userWithToken(auth()->user(), $jwt);
     }
 
-    public function update(UpdateUserRequest $request)
+    public function update(UserUpdateRequest $request)
     {
         $data = $request->validated();
 
