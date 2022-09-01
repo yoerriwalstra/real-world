@@ -13,7 +13,7 @@ class ArticleCreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testItCreatsArticle()
+    public function testItCreatesArticle()
     {
         /** @var Authenticatable|User $user */
         $user = User::factory()->create();
@@ -22,7 +22,7 @@ class ArticleCreateTest extends TestCase
                 'title' => 'new title',
                 'description' => 'new description',
                 'body' => 'new body',
-            ]
+            ],
         ];
 
         $response = $this->actingAs($user)->postJson('/api/articles', $data);
@@ -40,9 +40,9 @@ class ArticleCreateTest extends TestCase
                     'bio' => $user->bio,
                     'image' => $user->image,
                     'following' => false,
-                ]
+                ],
 
-            ]
+            ],
         ], true);
     }
 
@@ -56,7 +56,7 @@ class ArticleCreateTest extends TestCase
                 'description' => 'new description',
                 'body' => 'new body',
                 'tagList' => ['tag one', 'tag two'],
-            ]
+            ],
         ];
 
         $response = $this->actingAs($user)->postJson('/api/articles', $data);
@@ -73,13 +73,13 @@ class ArticleCreateTest extends TestCase
                     'bio' => $user->bio,
                     'image' => $user->image,
                     'following' => false,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->assertDatabaseHas('tags', [
             'name' => 'tag one',
-            'name' => 'tag two'
+            'name' => 'tag two',
         ]);
     }
 

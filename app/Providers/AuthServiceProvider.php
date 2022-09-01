@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -27,5 +28,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('follow-profile', fn (User $user, string $username) => $user->username !== $username);
+        Gate::define(
+            'update-article',
+            fn (User $user, string $slug) => $user->id === Article::query()->where('slug', $slug)->first()?->author_id
+        );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Article;
 use App\Models\Tag;
 use Carbon\Carbon;
 
@@ -31,5 +32,14 @@ class TagService
         }
 
         return $tags;
+    }
+
+    public function syncArticleTags(Article $article, array $tagData): Article
+    {
+        $tags = $this->findOrCreateMany($tagData);
+        $article->tags()->sync($tags->pluck('id')->toArray());
+        $article->save();
+
+        return $article;
     }
 }

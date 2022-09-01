@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleCreateRequest;
+use App\Http\Requests\ArticleUpdateRequest;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
@@ -63,5 +64,14 @@ class ArticleController extends Controller
             ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
-    public function update()
+    public function update(ArticleUpdateRequest $request, string $slug)
+    {
+        $article = $this->articleService->firstWhere('slug', $slug);
+        if (! $article) {
+            throw new ModelNotFoundException('Article not found');
+        }
+        $updated = $this->articleService->update($article, $request->validated()['article']);
+
+        return new ArticleResource($updated);
+    }
 }

@@ -28,7 +28,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('articles/feed', [ArticleController::class, 'feed']);
     Route::post('articles', [ArticleController::class, 'create']);
-    // Route::put('articles/{slug}', [ArticleController::class, 'update'])->middleware('can:update-article'); // TODO: add Gate
+    Route::put('articles/{slug}', [ArticleController::class, 'update'])->middleware('can:update-article,slug'); // TODO: add Gate
     // Route::delete('articles/{slug}', [ArticleController::class, 'delete'])->middleware('can:delete-article'); // TODO: add Gate
 
     // Route::post('articles/{slug}/favorite', [ArticleController::class, 'favorite']);

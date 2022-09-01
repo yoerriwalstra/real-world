@@ -41,7 +41,7 @@ class UserController extends Controller
         $password = data_get($data, 'user.password');
 
         $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
-        if (!$jwt) {
+        if (! $jwt) {
             throw new AuthenticationException('Unauthorized');
         }
 

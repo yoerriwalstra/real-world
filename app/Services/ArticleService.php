@@ -47,7 +47,7 @@ class ArticleService
         return Article::query()->where($conditions)->latest()->offset($offset)->limit($limit)->get();
     }
 
-    public function getFeed(int $limit, int $offset)
+    public function getFeed(int $limit, int $offset): Collection
     {
         $followingAuthorIds = auth()->user()->follows()->get(['id'])->pluck('id')->toArray();
 
@@ -59,7 +59,7 @@ class ArticleService
             ->get();
     }
 
-    public function create(array $data)
+    public function create(array $data): Article
     {
         $article = new Article($data);
         $article->author()->associate(auth()->user());
@@ -67,11 +67,20 @@ class ArticleService
         $article->save();
 
         if (! empty($data['tagList'])) {
-            $tags = $this->tagService->findOrCreateMany($data['tagList']);
-            $article->tags()->attach($tags->pluck('id')->toArray());
-            $article->save();
+            $article = $this->tagService->syncArticleTags($article, $data['tagList']);
         }
 
         return $article;
+    }
+
+    public function update(Article $article, array $data): Article
+    {
+        $article->update($data);
+
+        if (isset($data['tagList'])) {
+            $article = $this->tagService->syncArticleTags($article, $data['tagList']);
+        }
+
+        return $article->fresh(['author']);
     }
 }
