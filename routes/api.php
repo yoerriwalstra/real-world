@@ -27,7 +27,7 @@ Route::middleware('auth:api')->group(function () {
         ->whereAlphaNumeric('username');
 
     Route::get('articles/feed', [ArticleController::class, 'feed']);
-    // Route::post('articles', [ArticleController::class, 'create']);
+    Route::post('articles', [ArticleController::class, 'create']);
     // Route::put('articles/{slug}', [ArticleController::class, 'update'])->middleware('can:update-article'); // TODO: add Gate
     // Route::delete('articles/{slug}', [ArticleController::class, 'delete'])->middleware('can:delete-article'); // TODO: add Gate
 

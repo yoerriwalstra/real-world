@@ -3,11 +3,33 @@
 namespace App\Services;
 
 use App\Models\Tag;
+use Carbon\Carbon;
 
 class TagService
 {
     public function firstWhere(string $attribute, string $value): ?Tag
     {
         return Tag::query()->where($attribute, $value)->first();
+    }
+
+    public function findOrCreateMany(array $data)
+    {
+        $tags = Tag::query()->whereIn('name', $data)->get();
+        $newData = collect($data)->diff($tags->pluck('name'));
+
+        if ($newData->count()) {
+            $now = Carbon::now('utc')->toDateTimeString();
+            $newTags = $newData->map(fn (string $name) => [
+                'name' => $name,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+
+            Tag::insert($newTags->toArray());
+
+            return Tag::whereIn('name', $data)->get();
+        }
+
+        return $tags;
     }
 }

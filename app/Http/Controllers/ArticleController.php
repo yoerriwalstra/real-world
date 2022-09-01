@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateArticleRequest;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -35,7 +37,7 @@ class ArticleController extends Controller
     public function getOne(string $slug)
     {
         $article = $this->articleService->firstWhere('slug', $slug);
-        if (!$article) {
+        if (! $article) {
             throw new ModelNotFoundException('Article not found');
         }
 
@@ -50,5 +52,14 @@ class ArticleController extends Controller
         $feed = $this->articleService->getFeed($limit, $offset);
 
         return new ArticleCollection($feed);
+    }
+
+    public function create(CreateArticleRequest $request)
+    {
+        $article = $this->articleService->create($request->validated()['article']);
+
+        return (new ArticleResource($article))
+            ->response()
+            ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 }
