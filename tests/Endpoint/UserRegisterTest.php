@@ -2,6 +2,7 @@
 
 namespace Tests\Endpoint;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
@@ -21,6 +22,10 @@ class UserRegisterTest extends TestCase
         ];
 
         $response = $this->postJson('/api/users', $newUser);
+
+        $user = User::query()->where('email', $newUser['user']['email'])->first();
+
+        $this->assertAuthenticatedAs($user);
 
         $response->assertCreated();
         $response->assertJson(

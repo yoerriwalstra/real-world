@@ -18,9 +18,11 @@ class UserLoginTest extends TestCase
             'email' => 'test@email.com',
             'password' => 'password',
         ];
-        User::factory()->create($credentials);
+        $user = User::factory()->create($credentials);
 
         $response = $this->postJson('/api/users/login', ['user' => $credentials]);
+
+        $this->assertAuthenticatedAs($user);
 
         $response->assertOk();
         $response->assertJson(
