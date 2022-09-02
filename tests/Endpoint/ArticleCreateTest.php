@@ -43,7 +43,7 @@ class ArticleCreateTest extends TestCase
                 ],
 
             ],
-        ], true);
+        ]);
     }
 
     public function testItCreatesArticleWithTags()

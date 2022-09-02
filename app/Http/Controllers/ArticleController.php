@@ -57,7 +57,7 @@ class ArticleController extends Controller
 
     public function create(ArticleCreateRequest $request)
     {
-        $article = $this->articleService->create($request->validated()['article']);
+        $article = $this->articleService->create($request->validated('article'));
 
         return (new ArticleResource($article))
             ->response()
@@ -71,7 +71,7 @@ class ArticleController extends Controller
             throw new ModelNotFoundException('Article not found');
         }
 
-        $updated = $this->articleService->update($article, $request->validated()['article']);
+        $updated = $this->articleService->update($article, $request->validated('article'));
 
         return new ArticleResource($updated);
     }

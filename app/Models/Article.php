@@ -29,6 +29,11 @@ class Article extends Model
         return $this->belongsToMany(User::class, 'favorite_articles');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);

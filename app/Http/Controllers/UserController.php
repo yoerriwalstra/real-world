@@ -20,10 +20,10 @@ class UserController extends Controller
 
     public function register(UserRegisterRequest $request)
     {
-        $data = $request->validated();
-        $username = data_get($data, 'user.username');
-        $email = data_get($data, 'user.email');
-        $password = data_get($data, 'user.password');
+        $data = $request->validated('user');
+        $username = data_get($data, 'username');
+        $email = data_get($data, 'email');
+        $password = data_get($data, 'password');
 
         $user = $this->userService->create($username, $email, $password);
 
@@ -36,9 +36,9 @@ class UserController extends Controller
 
     public function login(UserLoginRequest $request)
     {
-        $data = $request->validated();
-        $email = data_get($data, 'user.email');
-        $password = data_get($data, 'user.password');
+        $data = $request->validated('user');
+        $email = data_get($data, 'email');
+        $password = data_get($data, 'password');
 
         $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
         if (! $jwt) {
@@ -57,9 +57,9 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->validated('user');
 
-        $updated = $this->userService->update(auth()->id(), $data['user']);
+        $updated = $this->userService->update(auth()->id(), $data);
         $jwt = str_replace('Token ', '', $request->header('Authorization'));
 
         return $this->userWithToken($updated, $jwt);
