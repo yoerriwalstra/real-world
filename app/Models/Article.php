@@ -17,6 +17,8 @@ class Article extends Model
         'body',
     ];
 
+    // TODO: make slug primary key to enable implicit Model binding
+
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');

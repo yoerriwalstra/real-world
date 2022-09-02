@@ -70,8 +70,23 @@ class ArticleController extends Controller
         if (! $article) {
             throw new ModelNotFoundException('Article not found');
         }
+
         $updated = $this->articleService->update($article, $request->validated()['article']);
 
         return new ArticleResource($updated);
+    }
+
+    public function delete(string $slug)
+    {
+        $article = $this->articleService->firstWhere('slug', $slug);
+        if (! $article) {
+            throw new ModelNotFoundException('Article not found');
+        }
+
+        // TODO: delete related comments after implementing comments
+
+        $article->delete();
+
+        return response('', JsonResponse::HTTP_NO_CONTENT);
     }
 }
