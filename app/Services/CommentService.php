@@ -9,7 +9,7 @@ class CommentService
 {
     public function firstWhere(string $attribute, $value): ?Comment
     {
-        //
+        return Comment::query()->where($attribute, $value)->first();
     }
 
     public function create(array $data, Article $article): Comment

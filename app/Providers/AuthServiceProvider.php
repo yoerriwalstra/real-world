@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Article;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -31,6 +32,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define(
             'update-article',
             fn (User $user, string $slug) => $user->id === Article::query()->where('slug', $slug)->first()?->author_id
+        );
+        Gate::define(
+            'delete-comment',
+            fn (User $user, string $id) => $user->id === Comment::query()->where('id', $id)->first()?->author_id
         );
     }
 }

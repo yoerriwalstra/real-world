@@ -35,7 +35,7 @@ Route::middleware('auth:api')->group(function () {
     // Route::delete('articles/{slug}/favorite', [ArticleController::class, 'unfavorite']);
 
     Route::post('articles/{slug}/comments', [CommentController::class, 'create']);
-    // Route::delete('articles/{slug}/comments/{id}', [CommentController::class, 'delete'])->middleware('can:delete-comment,id');
+    Route::delete('articles/{slug}/comments/{id}', [CommentController::class, 'delete'])->middleware('can:delete-comment,id');
 });
 
 Route::post('users', [UserController::class, 'register']);
