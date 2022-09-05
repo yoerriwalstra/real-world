@@ -4,7 +4,6 @@ namespace Tests\Endpoint;
 
 use App\Models\Article;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -47,22 +46,5 @@ class ArticleDeleteTest extends TestCase
         $response = $this->actingAs($user)->deleteJson('/api/articles/easy-title');
 
         $response->assertForbidden();
-    }
-
-    public function testItThrowsAuthenticationException()
-    {
-        $this->withoutExceptionHandling();
-
-        $this->expectException(AuthenticationException::class);
-
-        $this->deleteJson('/api/articles/easy-title');
-    }
-
-    public function testItReturnsUnauthorizedMessage()
-    {
-        $response = $this->deleteJson('/api/articles/easy-title');
-
-        $response->assertUnauthorized();
-        $response->assertJson(['message' => 'Unauthenticated.']);
     }
 }

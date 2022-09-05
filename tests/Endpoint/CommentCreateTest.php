@@ -6,7 +6,6 @@ use App\Models\Article;
 use App\Models\Comment;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -51,29 +50,12 @@ class CommentCreateTest extends TestCase
         ]);
     }
 
-    public function testItThrowsAuthenticationException()
-    {
-        $this->withoutExceptionHandling();
-
-        $this->expectException(AuthenticationException::class);
-
-        $this->postJson('/api/articles/easy-title/comments', []);
-    }
-
-    public function testItReturnsUnauthorizedMessage()
-    {
-        $response = $this->postJson('/api/articles/easy-title/comments', []);
-
-        $response->assertUnauthorized();
-        $response->assertJson(['message' => 'Unauthenticated.']);
-    }
-
     public function testItReturnsValidationErrors()
     {
         /** @var Authenticatable|User $user */
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->postJson('/api/articles/easy-title/comments', []);
+        $response = $this->actingAs($user)->postJson('/api/articles/easy-title/comments');
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['comment.body']);

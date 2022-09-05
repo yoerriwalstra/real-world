@@ -3,7 +3,6 @@
 namespace Tests\Endpoint;
 
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -81,23 +80,6 @@ class ArticleCreateTest extends TestCase
             'name' => 'tag one',
             'name' => 'tag two',
         ]);
-    }
-
-    public function testItThrowsAuthenticationException()
-    {
-        $this->withoutExceptionHandling();
-
-        $this->expectException(AuthenticationException::class);
-
-        $this->postJson('/api/articles', []);
-    }
-
-    public function testItReturnsUnauthorizedMessage()
-    {
-        $response = $this->postJson('/api/articles', []);
-
-        $response->assertUnauthorized();
-        $response->assertJson(['message' => 'Unauthenticated.']);
     }
 
     public function testItReturnsValidationErrors()

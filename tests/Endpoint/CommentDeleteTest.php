@@ -5,7 +5,6 @@ namespace Tests\Endpoint;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -49,22 +48,5 @@ class CommentDeleteTest extends TestCase
         $response = $this->actingAs($user)->deleteJson("/api/articles/easy-title/comments/{$this->comment->id}");
 
         $response->assertForbidden();
-    }
-
-    public function testItThrowsAuthenticationException()
-    {
-        $this->withoutExceptionHandling();
-
-        $this->expectException(AuthenticationException::class);
-
-        $this->deleteJson("/api/articles/easy-title/comments/{$this->comment->id}");
-    }
-
-    public function testItReturnsUnauthorizedMessage()
-    {
-        $response = $this->deleteJson("/api/articles/easy-title/comments/{$this->comment->id}");
-
-        $response->assertUnauthorized();
-        $response->assertJson(['message' => 'Unauthenticated.']);
     }
 }

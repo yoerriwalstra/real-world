@@ -4,7 +4,6 @@ namespace Tests\Endpoint;
 
 use App\Models\Article;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -33,22 +32,5 @@ class ArticleFavoriteTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('favorite_articles', ['article_id' => $article->id, 'user_id' => $user->id]);
-    }
-
-    public function testItThrowsAuthenticationException()
-    {
-        $this->withoutExceptionHandling();
-
-        $this->expectException(AuthenticationException::class);
-
-        $this->postJson('/api/articles/easy-title/favorite');
-    }
-
-    public function testItReturnsUnauthorizedMessage()
-    {
-        $response = $this->postJson('/api/articles/easy-title/favorite');
-
-        $response->assertUnauthorized();
-        $response->assertJson(['message' => 'Unauthenticated.']);
     }
 }

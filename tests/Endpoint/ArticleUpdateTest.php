@@ -5,7 +5,6 @@ namespace Tests\Endpoint;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -114,26 +113,9 @@ class ArticleUpdateTest extends TestCase
         /** @var Authenticatable|User $user */
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->putJson('/api/articles/easy-title', []);
+        $response = $this->actingAs($user)->putJson('/api/articles/easy-title');
 
         $response->assertForbidden();
-    }
-
-    public function testItThrowsAuthenticationException()
-    {
-        $this->withoutExceptionHandling();
-
-        $this->expectException(AuthenticationException::class);
-
-        $this->putJson('/api/articles/easy-title', []);
-    }
-
-    public function testItReturnsUnauthorizedMessage()
-    {
-        $response = $this->putJson('/api/articles/easy-title', []);
-
-        $response->assertUnauthorized();
-        $response->assertJson(['message' => 'Unauthenticated.']);
     }
 
     public function testItReturnsValidationErrors()
