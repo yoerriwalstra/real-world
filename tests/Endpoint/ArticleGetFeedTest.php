@@ -26,10 +26,12 @@ class ArticleGetFeedTest extends TestCase
 
         $authors = User::factory(2)->create();
         $articles = Article::factory()->for($authors->first(), 'author')->createMany([
+            // setting created_at to enforce sorted order
             ['title' => '1', 'created_at' => '2022-08-18 12:15:00'],
             ['title' => '2', 'created_at' => '2022-08-18 12:15:01'],
         ]);
         $more = Article::factory()->for($authors->last(), 'author')->createMany([
+            // setting created_at to enforce sorted order
             ['title' => '3', 'created_at' => '2022-08-18 12:15:02'],
             ['title' => '4', 'created_at' => '2022-08-18 12:15:03'],
         ]);
@@ -72,6 +74,7 @@ class ArticleGetFeedTest extends TestCase
         /** @var Authenticatable|User $user */
         $user = User::factory()->create();
         Article::factory()->for($user, 'author')->createMany([
+            // setting created_at to enforce sorted order
             ['title' => 'The first title', 'created_at' => '2022-08-18 12:15:00'],
             ['created_at' => '2022-08-18 12:15:01'],
             ['created_at' => '2022-08-18 12:15:02'],

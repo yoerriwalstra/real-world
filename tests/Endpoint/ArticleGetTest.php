@@ -61,6 +61,7 @@ class ArticleGetTest extends TestCase
     {
         $user = User::factory()->create();
         Article::factory()->for($user, 'author')->createMany([
+            // setting created_at to enforce sorted order
             ['title' => 'The first title', 'created_at' => '2022-08-18 12:15:00'],
             ['title' => 'The second title', 'created_at' => '2022-08-18 12:15:01'],
             ['title' => 'The last title', 'created_at' => '2022-08-18 12:15:02'],
@@ -86,6 +87,7 @@ class ArticleGetTest extends TestCase
             ->create();
         $author = User::factory()->create(['username' => 'username']);
         $authorArticles = Article::factory()->for($author, 'author')->createMany([
+            // setting created_at to enforce sorted order
             ['title' => 'The first title', 'created_at' => '2022-08-18 12:15:00'],
             ['title' => 'The second title', 'created_at' => '2022-08-18 12:15:01'],
             ['title' => 'The last title', 'created_at' => '2022-08-18 12:15:02'],
