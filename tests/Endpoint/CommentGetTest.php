@@ -45,9 +45,9 @@ class CommentGetTest extends TestCase
                         'image',
                         'following',
                     ],
-                ]
+                ],
             ],
-            'commentsCount'
+            'commentsCount',
 
         ]);
     }

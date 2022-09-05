@@ -83,4 +83,14 @@ class ArticleService
 
         return $article->fresh(['author']);
     }
+
+    public function favorite(Article $article): void
+    {
+        $article->favoritedBy()->attach(auth()->id());
+    }
+
+    public function unfavorite(Article $article): void
+    {
+        $article->favoritedBy()->detach(auth()->id());
+    }
 }

@@ -19,7 +19,7 @@ class CommentController extends Controller
     public function get(string $slug)
     {
         $article = $this->articleService->firstWhere('slug', $slug);
-        if (!$article) {
+        if (! $article) {
             throw new ModelNotFoundException('Article not found');
         }
 
@@ -29,7 +29,7 @@ class CommentController extends Controller
     public function create(CommentCreateRequest $request, string $slug)
     {
         $article = $this->articleService->firstWhere('slug', $slug);
-        if (!$article) {
+        if (! $article) {
             throw new ModelNotFoundException('Article not found');
         }
 
@@ -43,7 +43,7 @@ class CommentController extends Controller
     public function delete(string $slug, string $id)
     {
         $comment = $this->commentService->firstWhere('id', $id);
-        if (!$comment) {
+        if (! $comment) {
             throw new ModelNotFoundException('Comment not found');
         }
 

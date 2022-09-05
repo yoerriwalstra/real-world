@@ -8,6 +8,11 @@ use Carbon\Carbon;
 
 class TagService
 {
+    public function all()
+    {
+        return Tag::all();
+    }
+
     public function firstWhere(string $attribute, string $value): ?Tag
     {
         return Tag::query()->where($attribute, $value)->first();

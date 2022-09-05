@@ -89,4 +89,28 @@ class ArticleController extends Controller
 
         return response('', JsonResponse::HTTP_NO_CONTENT);
     }
+
+    public function favorite(string $slug)
+    {
+        $article = $this->articleService->firstWhere('slug', $slug);
+        if (! $article) {
+            throw new ModelNotFoundException('Article not found');
+        }
+
+        $this->articleService->favorite($article);
+
+        return new ArticleResource($article);
+    }
+
+    public function unfavorite(string $slug)
+    {
+        $article = $this->articleService->firstWhere('slug', $slug);
+        if (! $article) {
+            throw new ModelNotFoundException('Article not found');
+        }
+
+        $this->articleService->unfavorite($article);
+
+        return new ArticleResource($article);
+    }
 }
