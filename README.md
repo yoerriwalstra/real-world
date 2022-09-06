@@ -61,10 +61,6 @@ The API is available at `http://localhost:80/api` (You can change the `APP_PORT`
 
     sail artisan test
 
-### Run PHPStan static analysis
-
-    sail php ./vendor/bin/phpstan
-
 ## Contributions
 
 Feedback, suggestions, and improvements are welcome, feel free to contribute.
