@@ -18,8 +18,8 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'createdAt' => $this->created_at->toISOString(), // TODO: format date: 2016-02-18T03:22:56.637Z
-            'updatedAt' => $this->updated_at->toISOString(), // TODO: format date: 2016-02-18T03:22:56.637Z
+            'createdAt' => $this->created_at->toISOString(),
+            'updatedAt' => $this->updated_at->toISOString(),
             'author' => new ProfileResource($this->author),
         ];
     }
