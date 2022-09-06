@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentCreateRequest;
 use App\Http\Resources\CommentCollection;
 use App\Http\Resources\CommentResource;
+use App\Models\Article;
+use App\Models\Comment;
 use App\Services\ArticleService;
 use App\Services\CommentService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class CommentController extends Controller
@@ -16,23 +17,13 @@ class CommentController extends Controller
     {
     }
 
-    public function get(string $slug)
+    public function get(Article $article)
     {
-        $article = $this->articleService->firstWhere('slug', $slug);
-        if (! $article) {
-            throw new ModelNotFoundException('Article not found');
-        }
-
         return new CommentCollection($article->comments);
     }
 
-    public function create(CommentCreateRequest $request, string $slug)
+    public function create(CommentCreateRequest $request, Article $article)
     {
-        $article = $this->articleService->firstWhere('slug', $slug);
-        if (! $article) {
-            throw new ModelNotFoundException('Article not found');
-        }
-
         $comment = $this->commentService->create($request->validated('comment'), $article);
 
         return (new CommentResource($comment))
@@ -40,13 +31,8 @@ class CommentController extends Controller
             ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
-    public function delete(string $slug, string $id)
+    public function delete($article, Comment $comment)
     {
-        $comment = $this->commentService->firstWhere('id', $id);
-        if (! $comment) {
-            throw new ModelNotFoundException('Comment not found');
-        }
-
         $comment->delete();
 
         return response('', JsonResponse::HTTP_NO_CONTENT);

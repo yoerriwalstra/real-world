@@ -6,8 +6,8 @@ use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
+use App\Models\Article;
 use App\Services\ArticleService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -35,13 +35,8 @@ class ArticleController extends Controller
         return new ArticleCollection($articles);
     }
 
-    public function getOne(string $slug)
+    public function getOne(Article $article)
     {
-        $article = $this->articleService->firstWhere('slug', $slug);
-        if (! $article) {
-            throw new ModelNotFoundException('Article not found');
-        }
-
         return new ArticleResource($article);
     }
 
@@ -64,51 +59,30 @@ class ArticleController extends Controller
             ->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
-    public function update(ArticleUpdateRequest $request, string $slug)
+    public function update(ArticleUpdateRequest $request, Article $article)
     {
-        $article = $this->articleService->firstWhere('slug', $slug);
-        if (! $article) {
-            throw new ModelNotFoundException('Article not found');
-        }
-
         $updated = $this->articleService->update($article, $request->validated('article'));
 
         return new ArticleResource($updated);
     }
 
-    public function delete(string $slug)
+    public function delete(Article $article)
     {
-        $article = $this->articleService->firstWhere('slug', $slug);
-        if (! $article) {
-            throw new ModelNotFoundException('Article not found');
-        }
-
         // TODO: delete related comments after implementing comments
-
         $article->delete();
 
         return response('', JsonResponse::HTTP_NO_CONTENT);
     }
 
-    public function favorite(string $slug)
+    public function favorite(Article $article)
     {
-        $article = $this->articleService->firstWhere('slug', $slug);
-        if (! $article) {
-            throw new ModelNotFoundException('Article not found');
-        }
-
         $this->articleService->favorite($article);
 
         return new ArticleResource($article);
     }
 
-    public function unfavorite(string $slug)
+    public function unfavorite(Article $article)
     {
-        $article = $this->articleService->firstWhere('slug', $slug);
-        if (! $article) {
-            throw new ModelNotFoundException('Article not found');
-        }
-
         $this->articleService->unfavorite($article);
 
         return new ArticleResource($article);

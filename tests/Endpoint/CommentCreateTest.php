@@ -50,10 +50,21 @@ class CommentCreateTest extends TestCase
         ]);
     }
 
+    public function testItCannotAddCommentToNonExistentArticle()
+    {
+        /** @var Authenticatable|User $user */
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->postJson('/api/articles/non-existent-article/comments');
+
+        $response->assertNotFound();
+    }
+
     public function testItReturnsValidationErrors()
     {
         /** @var Authenticatable|User $user */
         $user = User::factory()->create();
+        Article::factory()->for($user, 'author')->create(['title' => 'easy title']);
 
         $response = $this->actingAs($user)->postJson('/api/articles/easy-title/comments');
 

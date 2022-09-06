@@ -15,6 +15,7 @@ class TagSeeder extends Seeder
      */
     public function run()
     {
+        Tag::factory()->create(['name' => 'dragons']); // needed to pass Postman tests
         $tags = Tag::factory(30)->create();
         $articles = Article::all();
         $articles->each(function (Article $article) use ($tags) {

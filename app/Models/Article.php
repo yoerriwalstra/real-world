@@ -17,7 +17,10 @@ class Article extends Model
         'body',
     ];
 
-    // TODO: make slug primary key to enable implicit Model binding
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function author()
     {

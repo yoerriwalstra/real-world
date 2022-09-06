@@ -29,13 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('follow-profile', fn (User $user, string $username) => $user->username !== $username);
-        Gate::define(
-            'update-article',
-            fn (User $user, string $slug) => $user->id === Article::query()->where('slug', $slug)->first()?->author_id
-        );
-        Gate::define(
-            'delete-comment',
-            fn (User $user, string $id) => $user->id === Comment::query()->where('id', $id)->first()?->author_id
-        );
+        Gate::define('update-article', fn (User $user, Article $article) => $user->id === $article->author_id);
+        Gate::define('delete-comment', fn (User $user, Comment $comment) => $user->id === $comment->author_id);
     }
 }

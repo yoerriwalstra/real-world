@@ -30,13 +30,13 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('articles/feed', [ArticleController::class, 'feed']); // http://localhost/api/articles/feed
     Route::post('articles', [ArticleController::class, 'create']);
-    Route::put('articles/{slug}', [ArticleController::class, 'update'])->middleware('can:update-article,slug');
-    Route::delete('articles/{slug}', [ArticleController::class, 'delete'])->middleware('can:update-article,slug');
-    Route::post('articles/{slug}/favorite', [ArticleController::class, 'favorite']);
-    Route::delete('articles/{slug}/favorite', [ArticleController::class, 'unfavorite']);
+    Route::put('articles/{article}', [ArticleController::class, 'update'])->middleware('can:update-article,article');
+    Route::delete('articles/{article}', [ArticleController::class, 'delete'])->middleware('can:update-article,article');
+    Route::post('articles/{article}/favorite', [ArticleController::class, 'favorite']);
+    Route::delete('articles/{article}/favorite', [ArticleController::class, 'unfavorite']);
 
-    Route::post('articles/{slug}/comments', [CommentController::class, 'create']);
-    Route::delete('articles/{slug}/comments/{id}', [CommentController::class, 'delete'])->middleware('can:delete-comment,id');
+    Route::post('articles/{article}/comments', [CommentController::class, 'create']);
+    Route::delete('articles/{article}/comments/{comment}', [CommentController::class, 'delete'])->middleware('can:delete-comment,comment');
 });
 
 Route::post('users', [UserController::class, 'register']);
@@ -46,8 +46,8 @@ Route::get('profiles/{username}', [ProfileController::class, 'get'])
     ->whereAlphaNumeric('username');
 
 Route::get('articles', [ArticleController::class, 'get']);
-Route::get('articles/{slug}', [ArticleController::class, 'getOne']);
+Route::get('articles/{article}', [ArticleController::class, 'getOne']);
 
-Route::get('articles/{slug}/comments', [CommentController::class, 'get']);
+Route::get('articles/{article}/comments', [CommentController::class, 'get']);
 
 Route::get('tags', [TagController::class, 'get']);

@@ -49,8 +49,8 @@ class ArticleGetOneTest extends TestCase
                 'description' => $article->description,
                 'body' => $article->body,
                 'tagList' => null,
-                'createdAt' => (string) $article->created_at,
-                'updatedAt' => (string) $article->updated_at,
+                'createdAt' => $article->created_at->toIsoString(),
+                'updatedAt' => $article->updated_at->toIsoString(),
                 'favorited' => null,
                 'favoritesCount' => null,
                 'author' => [

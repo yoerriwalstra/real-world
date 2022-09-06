@@ -12,11 +12,6 @@ class ArticleService
     {
     }
 
-    public function firstWhere(string $attribute, string $value): ?Article
-    {
-        return Article::query()->where($attribute, $value)->first();
-    }
-
     public function findWhere(array $conditions, int $limit, int $offset): Collection
     {
         if (isset($conditions['author'])) {
