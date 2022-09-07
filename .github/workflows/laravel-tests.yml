@@ -95,7 +95,7 @@ jobs:
           DB_CONNECTION: mysql
           DB_DATABASE: db_test_laravel
           DB_PORT: 33306
-          DB_USER: root
+          DB_USERNAME: root
 
         run: php artisan migrate
 
@@ -112,7 +112,8 @@ jobs:
           DB_CONNECTION: mysql
           DB_DATABASE: db_test_laravel
           DB_PORT: 33306
-          DB_USER: root
+          DB_USERNAME: root
+          JWT_SECRET: secret
 
         run: vendor/bin/phpunit --testdox
 
