@@ -106,16 +106,16 @@ jobs:
         run: php --version
 
       # Code quality
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        # Set environment
-        env:
-          DB_CONNECTION: mysql
-          DB_DATABASE: db_test_laravel
-          DB_PORT: 33306
-          DB_USERNAME: root
-          JWT_SECRET: secret
+      # - name: Execute tests (Unit and Feature tests) via PHPUnit
+      #   # Set environment
+      #   env:
+      #     DB_CONNECTION: mysql
+      #     DB_DATABASE: db_test_laravel
+      #     DB_PORT: 33306
+      #     DB_USERNAME: root
+      #     JWT_SECRET: secret
 
-        run: vendor/bin/phpunit --testdox
+      #   run: vendor/bin/phpunit --testdox
 
       - name: Execute Code Static Analysis (PHP Stan + Larastan)
         run: |

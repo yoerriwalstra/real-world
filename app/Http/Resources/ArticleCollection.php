@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * @extends ResourceCollection<\App\Models\Article>
+ */
 class ArticleCollection extends ResourceCollection
 {
     /**

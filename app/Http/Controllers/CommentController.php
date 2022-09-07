@@ -7,13 +7,12 @@ use App\Http\Resources\CommentCollection;
 use App\Http\Resources\CommentResource;
 use App\Models\Article;
 use App\Models\Comment;
-use App\Services\ArticleService;
 use App\Services\CommentService;
 use Illuminate\Http\JsonResponse;
 
 class CommentController extends Controller
 {
-    public function __construct(private CommentService $commentService, private ArticleService $articleService)
+    public function __construct(private CommentService $commentService)
     {
     }
 
