@@ -1,6 +1,6 @@
 # GithHub Actions Workflow generated with Ghygen
 # Original configuration: https://ghygen.hi-folks.dev?code=3dcc3c50fa0707403f0d5841d937daff
-name: Template - Laravel application (Mysql)
+name: Static analysis
 on:
   push:
     branches:
