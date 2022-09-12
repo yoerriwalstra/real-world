@@ -1,9 +1,9 @@
 # ![Laravel RealWorld Example App](.github/readme/logo.png)
 
 [![RealWorld: Backend](https://img.shields.io/badge/RealWorld-Backend-blueviolet.svg)](https://github.com/gothinkster/realworld)
-<!-- [![Tests: status](https://github.com/yoerriwalstra/real-world/actions/workflows/tests.yml/badge.svg)](https://github.com/yoerriwalstra/real-world/actions/workflows/tests.yml) -->
+[![Tests: status](https://github.com/yoerriwalstra/real-world/actions/workflows/tests.yml/badge.svg)](https://github.com/yoerriwalstra/real-world/actions/workflows/tests.yml)
+[![Static Analysis: status](https://github.com/yoerriwalstra/real-world/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/yoerriwalstra/real-world/actions/workflows/static-analysis.yml)
 <!-- [![Coverage: percent](https://codecov.io/gh/yoerriwalstra/real-world/branch/main/graph/badge.svg)](https://codecov.io/gh/yoerriwalstra/real-world) -->
-<!-- [![Static Analysis: status](https://github.com/yoerriwalstra/real-world/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/yoerriwalstra/real-world/actions/workflows/static-analysis.yml) -->
 <!-- [![License: MIT](https://img.shields.io/badge/License-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT) -->
 
 > Example of a PHP-based Laravel application containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) API spec.

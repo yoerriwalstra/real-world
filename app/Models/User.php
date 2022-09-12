@@ -15,7 +15,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 /**
  * App\Models\User
  *
- * @property Illuminate\Support\Collection<App\Models\User>
  * @property int $id
  * @property string $username
  * @property string $email

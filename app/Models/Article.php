@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasSlug;
+use App\Models\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use HasFactory;
-    use HasSlug;
+    use Sluggable;
 
     protected $fillable = [
         'title',
