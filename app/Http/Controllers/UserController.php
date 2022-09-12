@@ -11,6 +11,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -27,7 +28,7 @@ class UserController extends Controller
 
         $user = $this->userService->create($username, $email, $password);
 
-        $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
+        $jwt = Auth::attempt(['email' => $email, 'password' => $password]);
 
         return $this->userWithToken($user, $jwt)
             ->response()
@@ -40,8 +41,8 @@ class UserController extends Controller
         $email = data_get($data, 'email');
         $password = data_get($data, 'password');
 
-        $jwt = auth()->attempt(['email' => $email, 'password' => $password]);
-        if (! $jwt) {
+        $jwt = Auth::attempt(['email' => $email, 'password' => $password]);
+        if (!$jwt) {
             throw new AuthenticationException('Unauthorized');
         }
 
